@@ -6,15 +6,31 @@ const MOTION = {
   particles: [],
 };
 
+const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 function easeOutExpo(t) {
   return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
 }
 
 export function initRevealAnimations() {
+  if (REDUCED_MOTION) return;
   if ("IntersectionObserver" in window === false) return;
 
   const elements = document.querySelectorAll("[data-reveal]");
   if (!elements.length) return;
+
+  function isInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return rect.top < window.innerHeight - 60 && rect.bottom > 0;
+  }
+
+  elements.forEach((el) => {
+    if (isInViewport(el)) {
+      el.style.transition = "none";
+      el.classList.add("revealed");
+      requestAnimationFrame(() => { el.style.transition = ""; });
+    }
+  });
 
   MOTION.observer = new IntersectionObserver(
     (entries) => {
@@ -31,26 +47,8 @@ export function initRevealAnimations() {
   elements.forEach((el) => MOTION.observer.observe(el));
 }
 
-export function staggerCardsOnScroll() {
-  const grids = [document.getElementById("team-grid"), document.getElementById("projects-grid")];
-
-  grids.forEach((grid) => {
-    if (!grid) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("revealed");
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    grid.classList.add("stagger-children");
-    observer.observe(grid);
-  });
-}
-
 export function initCursorFollower() {
+  if (REDUCED_MOTION) return;
   const cursor = document.getElementById("cursor-follower");
   if (!cursor) return;
 
@@ -139,63 +137,123 @@ export function initTeamCardTilt() {
 }
 
 export function initNavScrollBehavior() {
+  if (REDUCED_MOTION) return;
   const header = document.querySelector(".site-header");
   if (!header) return;
 
   let lastScroll = 0;
+  let ticking = false;
   const scrollThreshold = 100;
 
-  window.addEventListener(
-    "scroll",
-    () => {
-      const currentScroll = window.scrollY;
+  function onScroll() {
+    const currentScroll = window.scrollY;
 
-      if (currentScroll > scrollThreshold) {
-        header.classList.add("scrolled");
-      } else {
-        header.classList.remove("scrolled");
-      }
+    if (currentScroll > scrollThreshold) {
+      header.classList.add("scrolled");
+    } else {
+      header.classList.remove("scrolled");
+    }
 
-      if (currentScroll > lastScroll && currentScroll > scrollThreshold) {
-        header.classList.add("hidden");
-      } else {
-        header.classList.remove("hidden");
-      }
+    if (currentScroll > lastScroll && currentScroll > scrollThreshold) {
+      header.classList.add("hidden");
+    } else {
+      header.classList.remove("hidden");
+    }
 
-      lastScroll = currentScroll;
-    },
-    { passive: true }
-  );
+    lastScroll = currentScroll;
+    ticking = false;
+  }
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, { passive: true });
 }
 
 export function initHeroParallax() {
+  if (REDUCED_MOTION) return;
   const heroBg = document.querySelector(".hero-bg");
   if (!heroBg) return;
 
-  window.addEventListener("scroll", () => {
+  let ticking = false;
+
+  function onScroll() {
     const scrollY = window.scrollY;
     const heroHeight = document.querySelector(".hero")?.offsetHeight || window.innerHeight;
-    if (scrollY > heroHeight) return;
-    const offset = scrollY * 0.35;
-    heroBg.style.transform = `translateY(${offset}px) scale(1.1)`;
+    if (scrollY <= heroHeight) {
+      const offset = scrollY * 0.35;
+      heroBg.style.transform = `translateY(${offset}px) scale(1.1)`;
+    }
+    ticking = false;
+  }
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
   }, { passive: true });
 }
 
 export function initParticleSystem() {
+  if (REDUCED_MOTION) return;
   const container = document.getElementById("hero-particles");
   if (!container) return;
 
-  const particleCount = Math.min(20, Math.floor(window.innerWidth / 40));
+  const canvas = document.createElement("canvas");
+  canvas.width = container.offsetWidth;
+  canvas.height = container.offsetHeight;
+  canvas.style.cssText = "position:absolute;inset:0;width:100%;height:100%;pointer-events:none;";
+  container.appendChild(canvas);
 
-  for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement("div");
-    particle.className = "hero-particle";
-    const size = 2 + Math.random() * 3;
-    particle.style.width = `${size}px`;
-    particle.style.height = `${size}px`;
-    particle.style.left = `${Math.random() * 100}%`;
-    particle.style.animationDuration = `${12 + Math.random() * 18}s`;
-    particle.style.animationDelay = `${Math.random() * 8}s`;
-    container.appendChild(particle);
+  const ctx = canvas.getContext("2d");
+  const count = Math.min(30, Math.floor(window.innerWidth / 50));
+  const particles = [];
+
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: 1.5 + Math.random() * 2.5,
+      speedY: 0.3 + Math.random() * 0.7,
+      speedX: (Math.random() - 0.5) * 0.3,
+      opacity: 0.2 + Math.random() * 0.5,
+    });
   }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const isDark = document.documentElement.classList.contains("dark-theme");
+    const color = isDark ? "212, 175, 55" : "0, 102, 204";
+
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${color}, ${p.opacity})`;
+      ctx.fill();
+
+      p.y -= p.speedY;
+      p.x += p.speedX;
+
+      if (p.y + p.size < 0) {
+        p.y = canvas.height + p.size;
+        p.x = Math.random() * canvas.width;
+      }
+      if (p.x < -p.size) p.x = canvas.width + p.size;
+      if (p.x > canvas.width + p.size) p.x = -p.size;
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+
+  const resizeObserver = new ResizeObserver(() => {
+    canvas.width = container.offsetWidth;
+    canvas.height = container.offsetHeight;
+  });
+  resizeObserver.observe(container);
 }

@@ -1,8 +1,8 @@
 import { renderTeamGrid } from "./team.js";
+import { renderProjects } from "./projects.js";
 import { loadSavedTheme, setupThemeToggle, setupFormValidation } from "./utils.js";
 import {
   initRevealAnimations,
-  staggerCardsOnScroll,
   initCursorFollower,
   initCardMouseGlow,
   initTeamCardTilt,
@@ -24,12 +24,31 @@ function initMobileNav() {
     document.body.style.overflow = isOpen ? "hidden" : "";
   });
 
+  function closeNav() {
+    navMenu.classList.remove("open");
+    hamburger.classList.remove("active");
+    hamburger.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && navMenu.classList.contains("open")) closeNav();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (navMenu.classList.contains("open") && !navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+      closeNav();
+    }
+  });
+
   document.querySelectorAll("[data-nav]").forEach((link) => {
-    link.addEventListener("click", () => {
-      navMenu.classList.remove("open");
-      hamburger.classList.remove("active");
-      hamburger.setAttribute("aria-expanded", "false");
-      document.body.style.overflow = "";
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute("href"));
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+      closeNav();
     });
   });
 }
@@ -37,12 +56,12 @@ function initMobileNav() {
 function init() {
   loadSavedTheme();
   renderTeamGrid();
+  renderProjects();
   setupThemeToggle();
   setupFormValidation();
   initMobileNav();
 
   initRevealAnimations();
-  staggerCardsOnScroll();
   initCardMouseGlow();
   initTeamCardTilt();
   initNavScrollBehavior();

@@ -2,9 +2,9 @@ const STORAGE_KEY = "portfolio-theme";
 
 export function applyTheme(theme) {
   if (theme === "dark") {
-    document.body.classList.add("dark-theme");
+    document.documentElement.classList.add("dark-theme");
   } else {
-    document.body.classList.remove("dark-theme");
+    document.documentElement.classList.remove("dark-theme");
   }
 }
 
@@ -31,25 +31,33 @@ export function setupThemeToggle() {
   if (!toggle) return;
 
   toggle.addEventListener("click", () => {
-    const isDark = document.body.classList.toggle("dark-theme");
+    const isDark = document.documentElement.classList.toggle("dark-theme");
     localStorage.setItem(STORAGE_KEY, isDark ? "dark" : "light");
     toggle.style.transform = "rotate(180deg)";
     setTimeout(() => { toggle.style.transform = ""; }, 300);
   });
 }
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const NAME_REGEX = /^[A-Za-z\s]+$/;
 
 export function validateField(name, value) {
   switch (name) {
-    case "name":
-      return value.trim().length === 0 ? "Please enter your name." : "";
+    case "name": {
+      const trimmed = value.trim();
+      if (trimmed.length === 0) return "Please enter your name.";
+      if (trimmed.length < 3) return "Name must be at least 3 characters.";
+      if (!NAME_REGEX.test(trimmed)) return "Name can only contain letters and spaces.";
+      return "";
+    }
     case "email":
       return EMAIL_REGEX.test(value.trim())
         ? ""
         : "Please enter a valid email address.";
     case "message":
-      return value.trim().length === 0 ? "Please write a message." : "";
+      return value.trim().length < 20
+        ? "Message must be at least 20 characters."
+        : "";
     default:
       return "";
   }
@@ -73,8 +81,17 @@ export function setupFormValidation() {
     { input: messageInput, error: messageError, name: "message" },
   ];
 
+  function hideSuccess() {
+    if (successBanner) successBanner.classList.remove("visible");
+  }
+
+  function showSuccess() {
+    if (successBanner) successBanner.classList.add("visible");
+  }
+
   fields.forEach(({ input, error, name }) => {
     input.addEventListener("input", () => {
+      hideSuccess();
       const msg = validateField(name, input.value);
       error.textContent = msg;
       input.classList.toggle("invalid", !!msg);
@@ -87,10 +104,18 @@ export function setupFormValidation() {
     });
   });
 
+  const submitBtn = form.querySelector(".btn-submit");
+
+  function setLoading(loading) {
+    if (!submitBtn) return;
+    submitBtn.disabled = loading;
+    submitBtn.classList.toggle("btn-loading", loading);
+  }
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    if (successBanner) successBanner.hidden = true;
+    hideSuccess();
 
     let hasError = false;
 
@@ -101,14 +126,19 @@ export function setupFormValidation() {
       if (msg) hasError = true;
     });
 
-    if (!hasError) {
-      if (successBanner) {
-        successBanner.hidden = false;
-      }
+    if (hasError) return;
+
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
       form.reset();
       fields.forEach(({ error }) => {
         error.textContent = "";
       });
-    }
+      showSuccess();
+
+      setTimeout(hideSuccess, 4000);
+    }, 1500);
   });
 }
