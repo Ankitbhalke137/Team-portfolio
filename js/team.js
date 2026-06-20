@@ -2,34 +2,34 @@ export const TEAM_MEMBERS = [
   {
     name: "Kshitij Das",
     role: "Frontend Developer",
-    avatarUrl: "https://ui-avatars.com/api/?name=Kshitij+Das&background=d97706&color=fff&size=150",
-    skills: ["HTML", "CSS", "JavaScript", "React"],
-    githubLink: "https://github.com/kshitijdas",
-    linkedinLink: "https://linkedin.com/in/kshitijdas"
+    avatarUrl: "https://github.com/kshitij-das-01.png",
+    skills: ["HTML", "CSS", "JavaScript", "Git & Github"],
+    githubLink: "https://github.com/kshitij-das-01",
+    linkedinLink: "https://www.linkedin.com/in/kshitij-das-1a93332b9"
   },
   {
     name: "Ankit Bhalke",
-    role: "Full-Stack Developer",
-    avatarUrl: "https://ui-avatars.com/api/?name=Ankit+Bhalke&background=92400e&color=fff&size=150",
-    skills: ["React", "Node.js", "MongoDB", "TypeScript"],
-    githubLink: "https://github.com/ankitbhalke",
-    linkedinLink: "https://linkedin.com/in/ankitbhalke"
+    role: "Frontend Developer",
+    avatarUrl: "https://github.com/Ankitbhalke137.png",
+    skills: ["HTML", "CSS", "JavaScript", "Git & Github"],
+    githubLink: "https://github.com/Ankitbhalke137",
+    linkedinLink: "https://www.linkedin.com/in/ankit-bhalke"
   },
   {
     name: "Sai Shendge",
-    role: "UI/UX Designer",
-    avatarUrl: "https://ui-avatars.com/api/?name=Sai+Shendge&background=b45309&color=fff&size=150",
-    skills: ["Figma", "CSS", "Prototyping", "Accessibility"],
-    githubLink: "https://github.com/saishendge",
-    linkedinLink: "https://linkedin.com/in/saishendge"
+    role: "Frontend Developer",
+    avatarUrl: "https://github.com/saishendge6.png",
+    skills: ["HTML", "CSS", "JavaScript", "Git & Github"],
+    githubLink: "https://github.com/saishendge6",
+    linkedinLink: "https://www.linkedin.com/in/sai-shendge-15a158386"
   },
   {
     name: "Dhruv Teja",
-    role: "DevOps Engineer",
-    avatarUrl: "https://ui-avatars.com/api/?name=Dhruv+Teja&background=78350f&color=fff&size=150",
-    skills: ["Docker", "CI/CD", "AWS", "Linux"],
-    githubLink: "https://github.com/dhruvteja",
-    linkedinLink: "https://linkedin.com/in/dhruvteja"
+    role: "Frontend Developer",
+    avatarUrl: "https://github.com/slndtsripati.png",
+    skills: ["HTML", "CSS", "JavaScript", "Git & Github"],
+    githubLink: "https://github.com/slndtsripati",
+    linkedinLink: "https://www.linkedin.com/in/sln-dhruv-teja"
   }
 ];
 
