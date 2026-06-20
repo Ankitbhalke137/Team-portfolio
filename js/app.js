@@ -14,32 +14,41 @@ import {
 function initMobileNav() {
   const hamburger = document.getElementById("hamburger");
   const navMenu = document.getElementById("nav-menu");
+  const backdrop = document.getElementById("nav-backdrop");
 
   if (!hamburger || !navMenu) return;
 
-  hamburger.addEventListener("click", () => {
-    const isOpen = navMenu.classList.toggle("open");
-    hamburger.classList.toggle("active");
-    hamburger.setAttribute("aria-expanded", isOpen);
-    document.body.style.overflow = isOpen ? "hidden" : "";
-  });
+  function openNav() {
+    navMenu.classList.add("open");
+    hamburger.classList.add("active");
+    hamburger.setAttribute("aria-expanded", "true");
+    if (backdrop) backdrop.classList.add("visible");
+    document.body.style.overflow = "hidden";
+  }
 
   function closeNav() {
     navMenu.classList.remove("open");
     hamburger.classList.remove("active");
     hamburger.setAttribute("aria-expanded", "false");
+    if (backdrop) backdrop.classList.remove("visible");
     document.body.style.overflow = "";
   }
+
+  hamburger.addEventListener("click", () => {
+    if (navMenu.classList.contains("open")) {
+      closeNav();
+    } else {
+      openNav();
+    }
+  });
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && navMenu.classList.contains("open")) closeNav();
   });
 
-  document.addEventListener("click", (e) => {
-    if (navMenu.classList.contains("open") && !navMenu.contains(e.target) && !hamburger.contains(e.target)) {
-      closeNav();
-    }
-  });
+  if (backdrop) {
+    backdrop.addEventListener("click", closeNav);
+  }
 
   document.querySelectorAll("[data-nav]").forEach((link) => {
     link.addEventListener("click", (e) => {
