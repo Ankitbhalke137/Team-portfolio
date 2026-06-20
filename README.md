@@ -44,6 +44,15 @@ A modern, single-page agency portfolio website built with **vanilla HTML, CSS, a
 - Six projects rendered dynamically into `#projects-grid`
 - Each card has an inline SVG icon, title, description, status badge (Active / Completed), and buttons for GitHub Repo and Live Demo
 
+| Project | Status | Repository | Live Demo |
+|---|---|---|---|
+| Team Portfolio | Active | [Ankitbhalke137/Team-portfolio](https://github.com/Ankitbhalke137/Team-portfolio) | [ankitbhalke137.github.io/Team-portfolio](https://ankitbhalke137.github.io/Team-portfolio) |
+| Interactive Quiz | Completed | [slndtsripati/Interactive_Quiz_App](https://github.com/slndtsripati/Interactive_Quiz_App) | [slndtsripati.github.io/Interactive_Quiz_App](https://slndtsripati.github.io/Interactive_Quiz_App) |
+| Expense Tracker | Completed | [Ankitbhalke137/Expense-tracker](https://github.com/Ankitbhalke137/Expense-tracker) | [ankitbhalke137.github.io/Expense-tracker](https://ankitbhalke137.github.io/Expense-tracker) |
+| Live News Feed | Completed | [Ankitbhalke137/LIVE-NEWS-FEED](https://github.com/Ankitbhalke137/LIVE-NEWS-FEED) | [ankitbhalke137.github.io/LIVE-NEWS-FEED](https://ankitbhalke137.github.io/LIVE-NEWS-FEED) |
+| GitHub Explorer | Completed | [kshitij-das-01/github_dev_explorer](https://github.com/kshitij-das-01/github_dev_explorer) | [kshitij-das-01.github.io/github_dev_explorer](https://kshitij-das-01.github.io/github_dev_explorer) |
+| Kanban Board | Completed | [saishendge6/Kanban](https://github.com/saishendge6/Kanban) | [saishendge6.github.io/Kanban](https://saishendge6.github.io/Kanban) |
+
 ### Contact Form (`js/utils.js`)
 - Real-time validation on `input` and `blur` events
 - Validation rules: name (3+ chars, letters/spaces), email (RFC-like regex), message (20+ chars)
