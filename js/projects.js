@@ -4,48 +4,48 @@ export const PROJECTS = [
     description: "The central hub — introducing our collective and linking every project in the ecosystem.",
     status: "Active",
     icon: "layout",
-    repoUrl: "https://github.com/kshitijdas/team-portfolio",
-    liveUrl: "https://kshitijdas.github.io/team-portfolio"
+    repoUrl: "https://github.com/Ankitbhalke137/Team-portfolio",
+    liveUrl: "https://ankitbhalke137.github.io/Team-portfolio"
   },
   {
     title: "Interactive Quiz",
     description: "Adaptive quiz engine with real-time scoring, state management, and dynamic feedback.",
     status: "Completed",
     icon: "play",
-    repoUrl: "https://github.com/kshitijdas/interactive-quiz",
-    liveUrl: "https://kshitijdas.github.io/interactive-quiz"
+    repoUrl: "https://github.com/slndtsripati/Interactive_Quiz_App",
+    liveUrl: "https://slndtsripati.github.io/Interactive_Quiz_App"
   },
   {
     title: "Expense Tracker",
     description: "Full CRUD ledger with array reduction, filters, and localStorage persistence.",
     status: "Completed",
     icon: "dollar",
-    repoUrl: "https://github.com/kshitijdas/expense-tracker",
-    liveUrl: "https://kshitijdas.github.io/expense-tracker"
+    repoUrl: "https://github.com/Ankitbhalke137/Expense-tracker",
+    liveUrl: "https://ankitbhalke137.github.io/Expense-tracker"
   },
   {
     title: "Live News Feed",
     description: "Async news aggregator with live API fetching, search, and category filtering.",
     status: "Completed",
     icon: "mail",
-    repoUrl: "https://github.com/kshitijdas/live-news-feed",
-    liveUrl: "https://kshitijdas.github.io/live-news-feed"
+    repoUrl: "https://github.com/Ankitbhalke137/LIVE-NEWS-FEED",
+    liveUrl: "https://ankitbhalke137.github.io/LIVE-NEWS-FEED"
   },
   {
     title: "GitHub Explorer",
     description: "Multi-endpoint API tool revealing user profiles, repos, and language analytics.",
     status: "Completed",
     icon: "github",
-    repoUrl: "https://github.com/kshitijdas/github-explorer",
-    liveUrl: "https://kshitijdas.github.io/github-explorer"
+    repoUrl: "https://github.com/kshitij-das-01/github_dev_explorer",
+    liveUrl: "https://kshitij-das-01.github.io/github_dev_explorer"
   },
   {
     title: "Kanban Board",
     description: "Drag-and-drop task board with complex state persistence across columns.",
     status: "Completed",
     icon: "grid",
-    repoUrl: "https://github.com/kshitijdas/kanban-board",
-    liveUrl: "https://kshitijdas.github.io/kanban-board"
+    repoUrl: "https://github.com/saishendge6/Kanban",
+    liveUrl: "https://saishendge6.github.io/Kanban"
   }
 ];
 
