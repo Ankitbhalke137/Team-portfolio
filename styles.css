@@ -311,42 +311,6 @@ ul {
   to { transform: rotate(360deg); }
 }
 
-/* ========== CURSOR FOLLOWER ========== */
-/* Hidden by default (not a touch device); shown only on hover-capable devices */
-.cursor-follower {
-  display: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .cursor-follower {
-    display: block;
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--clr-accent);
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.4s var(--ease-out-expo), height 0.4s var(--ease-out-expo), opacity 0.4s ease;
-    opacity: 0;
-    will-change: transform, width, height;
-  }
-
-  /* Visible when mouse enters the page */
-  .cursor-follower.visible {
-    opacity: 0.8;
-  }
-
-  /* Grows larger when hovering over interactive elements */
-  .cursor-follower.hovering {
-    width: 32px;
-    height: 32px;
-    opacity: 0.5;
-    background: var(--clr-accent);
-  }
-}
-
 /* ========== SITE HEADER ========== */
 .site-header {
   position: fixed;
@@ -665,14 +629,6 @@ ul {
     radial-gradient(ellipse 50% 30% at 80% 60%, rgba(0, 102, 204, 0.03) 0%, transparent 50%);
 }
 
-/* Container for the particle canvas (created by JS) */
-.hero-particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
 .hero .container {
   position: relative;
   z-index: 1;
@@ -950,23 +906,6 @@ ul {
   transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo), border-color 0.3s ease;
   position: relative;
   overflow: hidden;
-}
-
-/* Mouse-tracking radial glow – position driven by --mx/--my CSS custom properties set via JS */
-.project-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius-md);
-  opacity: 0;
-  z-index: -1;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), var(--clr-accent-glow), transparent 60%);
-  transition: opacity 0.5s ease;
-  pointer-events: none;
-}
-
-.project-card:hover::after {
-  opacity: 1;
 }
 
 .project-card:hover {
@@ -1372,10 +1311,6 @@ ul {
   [data-reveal] {
     opacity: 1;
     transform: none !important;
-  }
-
-  .cursor-follower {
-    display: none !important;
   }
 
   .team-card:hover {

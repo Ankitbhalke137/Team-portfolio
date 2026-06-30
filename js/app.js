@@ -3,12 +3,8 @@ import { renderProjects } from "./projects.js";
 import { loadSavedTheme, setupThemeToggle, setupFormValidation } from "./utils.js";
 import {
   initRevealAnimations,
-  initCursorFollower,
-  initCardMouseGlow,
-  initTeamCardTilt,
   initNavScrollBehavior,
   initHeroParallax,
-  initParticleSystem,
 } from "./motion.js";
 
 // --- Mobile navigation (hamburger toggle + smooth scroll on link click) ---
@@ -76,12 +72,8 @@ function init() {
   initMobileNav();
 
   initRevealAnimations();
-  initCardMouseGlow();
-  initTeamCardTilt();
   initNavScrollBehavior();
   initHeroParallax();
-  initParticleSystem();
-  initCursorFollower();
 }
 
 // Run on DOMContentLoaded, or immediately if already loaded
