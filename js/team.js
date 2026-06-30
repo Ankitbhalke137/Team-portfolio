@@ -1,3 +1,4 @@
+// Team member data – edit this to update the team section
 export const TEAM_MEMBERS = [
   {
     name: "Kshitij Das",
@@ -33,6 +34,7 @@ export const TEAM_MEMBERS = [
   }
 ];
 
+// Create a single team card element from a member object
 export function createTeamCard(member) {
   const skillsHtml = member.skills
     .map(skill => `<span class="team-skill">${skill}</span>`)
@@ -79,6 +81,7 @@ export function createTeamCard(member) {
   return card;
 }
 
+// Render all team cards into #team-grid with staggered reveal delays
 export function renderTeamGrid() {
   const grid = document.getElementById("team-grid");
   if (!grid) return;

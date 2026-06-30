@@ -1,3 +1,4 @@
+// Project data – edit this to add/update projects
 export const PROJECTS = [
   {
     title: "Team Portfolio",
@@ -49,6 +50,7 @@ export const PROJECTS = [
   }
 ];
 
+// Inline SVG path strings keyed by icon name
 const ICON_PATHS = {
   layout: `<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>`,
   play: `<circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>`,
@@ -58,6 +60,7 @@ const ICON_PATHS = {
   grid: `<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>`
 };
 
+// Create a single project card with icon, details, and action buttons
 export function createProjectCard(project, index) {
   const card = document.createElement("article");
   card.className = "project-card";
@@ -84,6 +87,7 @@ export function createProjectCard(project, index) {
   return card;
 }
 
+// Render all project cards into #projects-grid with staggered reveal delays
 export function renderProjects() {
   const grid = document.getElementById("projects-grid");
   if (!grid) return;

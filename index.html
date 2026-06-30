@@ -1,15 +1,18 @@
 <!DOCTYPE html>
+<!-- SynthSpace – Single-page app entry point. All sections, theming, and accessibility features are defined here. -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="SynthSpace — An elite collective of designers and engineers crafting award-winning digital experiences.">
   <meta name="theme-color" content="#0a0a0a">
+  <!-- Preconnect to Google Fonts for faster font loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <title>SynthSpace — Elite Digital Experiences</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Anti-FOUC: Apply saved theme before CSS loads to prevent flash of unstyled content -->
   <script>
     (function() {
       var theme = localStorage.getItem("portfolio-theme");
@@ -22,21 +25,26 @@
   </script>
 </head>
 <body>
+  <!-- Skip-to-content link for keyboard accessibility -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
+  <!-- Custom cursor follower – hidden by default, shown on hover-enabled devices via CSS media query -->
   <div id="cursor-follower" class="cursor-follower" aria-hidden="true"></div>
 
   <header class="site-header" role="banner">
     <div class="header-inner">
+      <!-- Logo – links to root, positioned above nav in stacking context -->
       <a href="/" class="logo" aria-label="SynthSpace Home">
         <span class="logo-mark">SS</span>
         <span class="logo-text">SynthSpace</span>
       </a>
+      <!-- Hamburger button – controls mobile nav open/close, toggles aria-expanded via JS -->
       <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-controls="nav-menu" aria-expanded="false">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
       </button>
+      <!-- Main navigation – full-screen slide-in on mobile, inline on desktop -->
       <nav id="nav-menu" class="nav-menu" role="navigation" aria-label="Main navigation">
         <ul>
           <li><a href="#hero" class="nav-link" data-nav>Home</a></li>
@@ -45,6 +53,7 @@
           <li><a href="#contact" class="nav-link" data-nav>Contact</a></li>
         </ul>
       </nav>
+      <!-- Theme toggle – switches between dark/light modes, icon swaps via CSS display toggle -->
       <div class="theme-toggle-wrapper">
         <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
           <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -61,9 +70,11 @@
       </div>
     </div>
   </header>
+  <!-- Nav backdrop overlay – closes nav on tap, visible only when mobile nav is open -->
   <div id="nav-backdrop" class="nav-backdrop" aria-hidden="true"></div>
 
   <main id="main-content">
+    <!-- Hero Section – full-viewport banner with parallax background, particle canvas, and scroll-triggered reveals -->
     <section id="hero" class="hero section" aria-label="Hero banner">
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="hero-overlay" aria-hidden="true"></div>
@@ -90,6 +101,7 @@
       </div>
     </section>
 
+    <!-- Team Section – grid populated dynamically by js/team.js -->
     <section id="team" class="team section" aria-label="Our team">
       <div class="container">
         <div class="section-header" data-reveal>
@@ -101,6 +113,7 @@
       </div>
     </section>
 
+    <!-- Projects Section – grid populated dynamically by js/projects.js -->
     <section id="projects" class="projects section" aria-label="Project showcase">
       <div class="container">
         <div class="section-header" data-reveal>
@@ -112,6 +125,7 @@
       </div>
     </section>
 
+    <!-- Contact Section – form with real-time validation (js/utils.js) and simulated submission -->
     <section id="contact" class="contact section" aria-label="Contact us">
       <div class="container">
         <div class="section-header" data-reveal>
@@ -119,6 +133,7 @@
           <h2 class="section-title">Start a Project</h2>
           <p class="section-desc">Tell us about your vision — we'll bring it to life with precision and craft.</p>
         </div>
+        <!-- novalidate disables browser defaults; validation is handled by custom JS -->
         <form id="contact-form" class="contact-form" novalidate data-reveal>
           <div class="form-row">
             <div class="form-group">
@@ -137,6 +152,7 @@
             <textarea id="client-message" name="message" rows="5" placeholder="Describe your project, goals, and timeline..." required aria-describedby="message-error"></textarea>
             <span id="message-error" class="form-error" role="alert"></span>
           </div>
+          <!-- Submit button with loading spinner state; text/arrow hidden when loading -->
           <button type="submit" class="btn btn-primary btn-submit">
             <span class="btn-text">Send Message</span>
             <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -149,6 +165,7 @@
             </span>
           </button>
         </form>
+        <!-- Success banner – slides in after form submission, auto-dismisses after 4s -->
         <div id="form-success" class="form-success" role="status" hidden>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
@@ -159,6 +176,7 @@
     </section>
   </main>
 
+  <!-- Footer – brand and copyright -->
   <footer class="site-footer" role="contentinfo" data-reveal>
     <div class="container">
       <div class="footer-inner">
@@ -171,8 +189,10 @@
     </div>
   </footer>
 
+  <!-- Smooth-scroll polyfill – loaded only for non-module (legacy) browsers -->
   <script nomodule src="https://unpkg.com/smoothscroll-polyfill/dist/smoothscroll-iife.js"></script>
   <script nomodule>smoothscroll.polyfill();</script>
+  <!-- Main JS entry point – imports all modules and bootstraps the app -->
   <script type="module" src="js/app.js"></script>
 </body>
 </html>

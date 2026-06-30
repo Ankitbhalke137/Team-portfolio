@@ -1,3 +1,4 @@
+// Shared state for cursor and particle systems
 const MOTION = {
   observer: null,
   cursor: null,
@@ -6,12 +7,15 @@ const MOTION = {
   particles: [],
 };
 
+// Check user's motion preference once at init
 const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+// Custom easing: starts fast, decelerates to zero
 function easeOutExpo(t) {
   return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
 }
 
+// --- Scroll-triggered reveal animations via IntersectionObserver ---
 export function initRevealAnimations() {
   if (REDUCED_MOTION) return;
   if ("IntersectionObserver" in window === false) return;
@@ -19,6 +23,7 @@ export function initRevealAnimations() {
   const elements = document.querySelectorAll("[data-reveal]");
   if (!elements.length) return;
 
+  // Reveal elements already in view on init (without animation)
   function isInViewport(el) {
     const rect = el.getBoundingClientRect();
     return rect.top < window.innerHeight - 60 && rect.bottom > 0;
@@ -47,6 +52,7 @@ export function initRevealAnimations() {
   elements.forEach((el) => MOTION.observer.observe(el));
 }
 
+// --- Smooth cursor follower with lerp interpolation ---
 export function initCursorFollower() {
   if (REDUCED_MOTION) return;
   const cursor = document.getElementById("cursor-follower");
@@ -72,6 +78,7 @@ export function initCursorFollower() {
     cursor.classList.remove("visible");
   });
 
+  // Grow cursor on interactive elements
   const hoverTargets = document.querySelectorAll(
     "a, button, .team-card, .project-card, .btn"
   );
@@ -81,6 +88,7 @@ export function initCursorFollower() {
     el.addEventListener("mouseleave", () => cursor.classList.remove("hovering"));
   });
 
+  // Lerp animation loop – cursor lags behind mouse for smooth feel
   function animate() {
     currentX += (targetX - currentX) * 0.12;
     currentY += (targetY - currentY) * 0.12;
@@ -103,6 +111,8 @@ export function initCursorFollower() {
   animate();
 }
 
+// --- Mouse-driven radial glow on project cards ---
+// Updates --mx / --my CSS custom properties used by the ::after pseudo-element
 export function initCardMouseGlow() {
   const cards = document.querySelectorAll(".project-card");
   cards.forEach((card) => {
@@ -116,6 +126,8 @@ export function initCardMouseGlow() {
   });
 }
 
+// --- 3D perspective tilt on team cards ---
+// Rotates card up to ±6° based on cursor position relative to center
 export function initTeamCardTilt() {
   const cards = document.querySelectorAll(".team-card");
   cards.forEach((card) => {
@@ -136,6 +148,7 @@ export function initTeamCardTilt() {
   });
 }
 
+// --- Auto-hide header on scroll down, show on scroll up ---
 export function initNavScrollBehavior() {
   if (REDUCED_MOTION) return;
   const header = document.querySelector(".site-header");
@@ -148,12 +161,14 @@ export function initNavScrollBehavior() {
   function onScroll() {
     const currentScroll = window.scrollY;
 
+    // Add border once past hero
     if (currentScroll > scrollThreshold) {
       header.classList.add("scrolled");
     } else {
       header.classList.remove("scrolled");
     }
 
+    // Hide when scrolling down, reveal when scrolling up
     if (currentScroll > lastScroll && currentScroll > scrollThreshold) {
       header.classList.add("hidden");
     } else {
@@ -164,6 +179,7 @@ export function initNavScrollBehavior() {
     ticking = false;
   }
 
+  // Throttled via requestAnimationFrame
   window.addEventListener("scroll", () => {
     if (!ticking) {
       requestAnimationFrame(onScroll);
@@ -172,6 +188,8 @@ export function initNavScrollBehavior() {
   }, { passive: true });
 }
 
+// --- Hero background parallax ---
+// Moves background image at 35% of scroll speed, constrained to hero height
 export function initHeroParallax() {
   if (REDUCED_MOTION) return;
   const heroBg = document.querySelector(".hero-bg");
@@ -197,6 +215,7 @@ export function initHeroParallax() {
   }, { passive: true });
 }
 
+// --- Floating particle system on a canvas in the hero section ---
 export function initParticleSystem() {
   if (REDUCED_MOTION) return;
   const container = document.getElementById("hero-particles");
@@ -209,6 +228,7 @@ export function initParticleSystem() {
   container.appendChild(canvas);
 
   const ctx = canvas.getContext("2d");
+  // Particle count scales with viewport width
   const count = Math.min(30, Math.floor(window.innerWidth / 50));
   const particles = [];
 
@@ -226,6 +246,7 @@ export function initParticleSystem() {
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Particles match the current accent colour
     const isDark = document.documentElement.classList.contains("dark-theme");
     const color = isDark ? "212, 175, 55" : "0, 102, 204";
 
@@ -238,6 +259,7 @@ export function initParticleSystem() {
       p.y -= p.speedY;
       p.x += p.speedX;
 
+      // Wrap around edges
       if (p.y + p.size < 0) {
         p.y = canvas.height + p.size;
         p.x = Math.random() * canvas.width;
@@ -251,6 +273,7 @@ export function initParticleSystem() {
 
   draw();
 
+  // Keep canvas sized to container on resize
   const resizeObserver = new ResizeObserver(() => {
     canvas.width = container.offsetWidth;
     canvas.height = container.offsetHeight;

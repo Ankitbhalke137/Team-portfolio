@@ -11,6 +11,7 @@ import {
   initParticleSystem,
 } from "./motion.js";
 
+// --- Mobile navigation (hamburger toggle + smooth scroll on link click) ---
 function initMobileNav() {
   const hamburger = document.getElementById("hamburger");
   const navMenu = document.getElementById("nav-menu");
@@ -42,14 +43,17 @@ function initMobileNav() {
     }
   });
 
+  // Close nav on Escape
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && navMenu.classList.contains("open")) closeNav();
   });
 
+  // Close nav when tapping backdrop
   if (backdrop) {
     backdrop.addEventListener("click", closeNav);
   }
 
+  // Smooth-scroll nav links and close nav
   document.querySelectorAll("[data-nav]").forEach((link) => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
@@ -62,6 +66,7 @@ function initMobileNav() {
   });
 }
 
+// --- Bootstrap ---
 function init() {
   loadSavedTheme();
   renderTeamGrid();
@@ -79,6 +84,7 @@ function init() {
   initCursorFollower();
 }
 
+// Run on DOMContentLoaded, or immediately if already loaded
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", init);
 } else {

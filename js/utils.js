@@ -1,5 +1,6 @@
 const STORAGE_KEY = "portfolio-theme";
 
+// Apply a theme by toggling the .dark-theme class on <html>
 export function applyTheme(theme) {
   if (theme === "dark") {
     document.documentElement.classList.add("dark-theme");
@@ -8,6 +9,7 @@ export function applyTheme(theme) {
   }
 }
 
+// Load saved theme from localStorage, fall back to OS preference, default to dark
 export function loadSavedTheme() {
   const saved = localStorage.getItem(STORAGE_KEY);
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -26,6 +28,7 @@ export function loadSavedTheme() {
   return "dark";
 }
 
+// Wire up the theme toggle button – saves preference, adds rotation animation feedback
 export function setupThemeToggle() {
   const toggle = document.getElementById("theme-toggle");
   if (!toggle) return;
@@ -38,9 +41,11 @@ export function setupThemeToggle() {
   });
 }
 
+// --- Form validation ---
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const NAME_REGEX = /^[A-Za-z\s]+$/;
 
+// Returns an error message string (empty string = no error)
 export function validateField(name, value) {
   switch (name) {
     case "name": {
@@ -63,6 +68,7 @@ export function validateField(name, value) {
   }
 }
 
+// Attach real-time validation to all form fields, handle submit with simulated loading
 export function setupFormValidation() {
   const form = document.getElementById("contact-form");
   if (!form) return;
@@ -89,6 +95,7 @@ export function setupFormValidation() {
     if (successBanner) successBanner.classList.add("visible");
   }
 
+  // Real-time validation on input and blur
   fields.forEach(({ input, error, name }) => {
     input.addEventListener("input", () => {
       hideSuccess();
@@ -117,6 +124,7 @@ export function setupFormValidation() {
 
     hideSuccess();
 
+    // Re-validate all fields on submit
     let hasError = false;
 
     fields.forEach(({ input, error, name }) => {
@@ -128,6 +136,7 @@ export function setupFormValidation() {
 
     if (hasError) return;
 
+    // Simulate loading, then reset form and show success banner
     setLoading(true);
 
     setTimeout(() => {
@@ -138,6 +147,7 @@ export function setupFormValidation() {
       });
       showSuccess();
 
+      // Auto-dismiss success after 4 seconds
       setTimeout(hideSuccess, 4000);
     }, 1500);
   });
